@@ -16,7 +16,7 @@
       "type": "string",
       "title": "Project Root Directory",
       "description": "Absolute path to your py project root directory. Leave empty to use auto-detection.",
-      "default": "/storage/emulated/0/lz/AAA/py",
+      "default": "/storage/emulated/0",
       "required": false
     }
   },
