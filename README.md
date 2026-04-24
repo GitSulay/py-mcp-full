@@ -125,17 +125,10 @@ py-mcp-full/
 ├── manifest.json     # 工具 Schema 定义
 └── 使用说明.md        # 中文详细文档
 ```
-
-## 🆚 与 py_mcp 的区别
-
-py_mcp_full 是 py_mcp 的**超集**，完全兼容并新增 8 个文件操作工具：
-
-| 对比项 | py_mcp | py_mcp_full |
-|--------|--------|-------------|
-| 工具数量 | 10 | 18 |
-| 文件操作 | ❌ | ✅ read/write/delete/mkdir/move/copy/info/cwd |
-| 爬虫开发 | ✅ | ✅ 完整保留 |
-
+## 仓库说明
+本 README 仅用于说明项目基本信息与仓库边界，仅供技术学习交流，不包含使用引导、接入引导或资源说明。
+## 致谢
+[hjdhnx的主页](https://github.com/hjdhnx)
 ## 📄 License
 
 MIT
