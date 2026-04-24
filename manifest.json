@@ -1,0 +1,229 @@
+{
+  "name": "py-mcp-full",
+  "display_name": "PY MCP Full",
+  "version": "3.1.0",
+  "description": "PY 爬虫开发全量工具集 | 深度分析 + 智能源码生成 + 选择器验证 + 播放链接调试 + 代码规范评估 + 全量文件操作(read/write/delete/move/copy/mkdir/info)",
+  "author": {
+    "name": "sunniu-hjdhnx"
+  },
+  "type": "stdio",
+  "server": {
+    "command": "node",
+    "args": ["index.js"]
+  },
+  "user_config": {
+    "ROOT": {
+      "type": "string",
+      "title": "Project Root Directory",
+      "description": "Absolute path to your py project root directory. Leave empty to use auto-detection.",
+      "default": "/storage/emulated/0/lz/AAA/py",
+      "required": false
+    }
+  },
+  "permissions": [],
+  "tools": [
+    {
+      "name": "analyze_website",
+      "description": "深度分析网站结构。抓取首页+分类页+详情页，识别MacCMS v8/v10/采集API/非标架构，提取分类列表、视频列表选择器、播放区域选择器、搜索方式、加密特征。",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "url": { "type": "string", "description": "网站首页URL" } },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "create_spider_source",
+      "description": "基于analyze_website分析结果智能生成爬虫源。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "网站URL" },
+          "analysis": { "type": "string", "description": "analyze_website输出的分析报告JSON字符串" },
+          "mode": { "type": "string", "description": "T4(默认)或T3模式", "default": "T4" }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "debug_selector",
+      "description": "验证CSS选择器在真实页面上的匹配结果。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "要测试的页面URL" },
+          "selector": { "type": "string", "description": "CSS选择器" },
+          "extract": { "type: "string", "description": "提取属性：text/html/attr:name", "default": "text" }
+        },
+        "required": ["url", "selector"]
+      }
+    },
+    {
+      "name": "debug_play_link",
+      "description": "调试播放链接解析。支持直链检测、v8/v10/通用JS变量提取、iframe递归。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "播放页URL或疑似直链" },
+          "page_url": { "type": "string", "description": "上级页面URL(用于Referer)" }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "test_interface",
+      "description": "测试爬虫源五大接口(home/category/detail/search/play)。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "source_code": { "type": "string", "description": "爬虫源Python代码" },
+          "interface": { "type": "string", "description": "接口名：home/category/detail/search/play/all" }
+        },
+        "required": ["source_code", "interface"]
+      }
+    },
+    {
+      "name": "evaluate_source",
+      "description": "评估爬虫源代码规范符合度（12项加权检查）。",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "source_code": { "type": "string", "description": "爬虫源Python代码" } },
+        "required": ["source_code"]
+      }
+    },
+    {
+      "name": "fetch_url",
+      "description": "抓取页面内容，智能提取关键区域(video_list/play_area/full)。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "URL" },
+          "region": { "type": "string", "description": "提取区域：video_list/play_area/full", "default": "video_list" }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "edit_file",
+      "description": "替换文件中的文本内容",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "search_text": { "type": "string" },
+          "replace_text": { "type": "string" }
+        },
+        "required": ["path", "search_text", "replace_text"]
+      }
+    },
+    {
+      "name": "find_in_file",
+      "description": "搜索文件内容",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "path": { "type": "string" }, "keyword": { "type": "string" } },
+        "required": ["path", "keyword"]
+      }
+    },
+    {
+      "name": "list_directory",
+      "description": "列出目录内容",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "path": { "type": "string" } },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "read_file",
+      "description": "读取文件内容（支持文本文件，返回带行号内容）",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "文件绝对路径" },
+          "offset": { "type": "integer", "description": "起始行号(从0开始)" },
+          "limit": { "type": "integer", "description": "读取行数" }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "write_file",
+      "description": "写入文件内容（不存在则创建，存在则覆盖或追加）",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "文件绝对路径" },
+          "content": { "type": "string", "description": "要写入的内容" },
+          "append": { "type": "boolean", "description": "是否追加模式(默认false覆盖)" }
+        },
+        "required": ["path", "content"]
+      }
+    },
+    {
+      "name": "delete_file",
+      "description": "删除文件或目录（recursive=true时删除非空目录）",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "要删除的文件或目录路径" },
+          "recursive": { "type": "boolean", "description": "是否递归删除(默认false)" }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "create_directory",
+      "description": "创建目录（支持递归创建父目录）",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "目录路径" },
+          "recursive": { "type": "boolean", "description": "是否递归创建(默认true)" }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "move_file",
+      "description": "移动或重命名文件或目录",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string", "description": "源路径" },
+          "destination": { "type": "string", "description": "目标路径" }
+        },
+        "required": ["source", "destination"]
+      }
+    },
+    {
+      "name": "copy_file",
+      "description": "复制文件或目录",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string", "description": "源路径" },
+          "destination": { "type": "string", "description": "目标路径" }
+        },
+        "required": ["source", "destination"]
+      }
+    },
+    {
+      "name": "file_info",
+      "description": "获取文件或目录详细信息（大小、权限、修改时间等）",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "path": { "type": "string", "description": "文件路径" } },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "get_cwd",
+      "description": "获取当前工作目录",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  ]
+}

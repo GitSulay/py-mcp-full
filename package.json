@@ -1,0 +1,20 @@
+{
+  "name": "py-mcp-full",
+  "version": "3.1.0",
+  "description": "PY 爬虫开发全量工具集 | MacCMS 影视站分析 + 智能源码生成 + 选择器调试 + 播放链接调试 + 接口测试 + 代码规范评估 + 全量文件操作",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "build": "esbuild index.js --bundle --platform=node --format=cjs --target=node22 --outfile=dist/index.cjs",
+    "test": "node -c index.js"
+  },
+  "keywords": ["mcp", "mcp-server", "spider", "crawler", "maccms", "video", "cheerio", "axios"],
+  "author": "sunniu-hjdhnx",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "axios": "^1.15.2",
+    "cheerio": "^1.2.0"
+  }
+}
